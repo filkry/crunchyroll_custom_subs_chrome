@@ -1,0 +1,14 @@
+{
+    "name": "Crunchyroll Custom Subs",
+    "version": "1.0",
+    "description": "Use custom subtitle files on Crunchyroll.",
+    "permissions": ["activeTab"],
+    "content_scripts": [
+        {
+            "all_frames": true,
+            "matches": ["*://static.crunchyroll.com/*player.html*"],
+            "js": ["contentscript.js"]
+        }
+    ],
+    "manifest_version": 2
+}
