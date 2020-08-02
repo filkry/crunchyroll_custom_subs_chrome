@@ -37,7 +37,7 @@ if(videoarea != null) {
 
     chrome.storage.sync.get(['suboffset'], function(result) {
         if(result != null) {
-            if(result.offset != null) {
+            if(result.suboffset != null) {
                 currentoffset = result.suboffset;
                 offsetinput.value = result.suboffset;
             }
@@ -218,7 +218,11 @@ if(videoarea != null) {
                         let offset = lastvideotime - subistarttime;
                         currentoffset = offset;
                         offsetinput.value = offset;
-                        console.log("Set current offset: " + currentoffset);
+
+                        chrome.storage.sync.set({suboffset: offset}, function() {
+                            console.log("saved offset: " + offset);
+                        });
+                        //console.log("Set current offset: " + currentoffset);
                     });
                     subdisp.appendChild(subsyncbutton);
                 });
