@@ -1,6 +1,7 @@
 div #ext_subtitle_list {
     max-height: 400px;
     overflow-y: auto;
+    margin-top: 20px;
 }
 
 div #ext_drop_div {

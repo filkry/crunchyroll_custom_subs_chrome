@@ -5,6 +5,8 @@ function preventDefaults (e) {
 
 let activesubids = [];
 let loadedsubs = [];
+let currentoffset = 0.0;
+let lastvideotime = 0.0;
 
 let videoarea = document.getElementById("showmedia_video");
 if(videoarea != null) {
@@ -23,10 +25,30 @@ if(videoarea != null) {
     droptext.innerHTML = "drop subtitle file (SRT) here";
     dropdiv.appendChild(droptext);
 
+    let offsetdiv = document.createElement("div");
+    let offsetlabel = document.createElement("label");
+    offsetlabel.innerHTML = "Offset (seconds):"
+    offsetlabel.style.marginRight = "10px";
+    offsetdiv.appendChild(offsetlabel);
+    let offsetinput = document.createElement("input");
+    offsetinput.step = 0.05;
+    offsetinput.value = 0.0;
+    offsetdiv.appendChild(offsetinput);
+
+    chrome.storage.sync.get(['suboffset'], function(result) {
+        if(result != null) {
+            if(result.offset != null) {
+                currentoffset = result.suboffset;
+                offsetinput.value = result.suboffset;
+            }
+        }
+    });
+
     chrome.runtime.onMessage.addListener(
         function(message, sender, sendResponse) {
             if(message.type == "timeupdatefrombackground") {
                 //console.log("Controls time: " + message.time);
+                lastvideotime = time;
 
                 let subis = [];
 
@@ -197,6 +219,7 @@ if(videoarea != null) {
     });
 
     controlsdiv.appendChild(dropdiv);
+    controlsdiv.appendChild(offsetdiv);
     videoarea.parentNode.insertBefore(controlsdiv, videoarea.nextSibling);
 }
 
