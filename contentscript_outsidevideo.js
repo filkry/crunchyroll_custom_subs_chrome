@@ -53,7 +53,9 @@ if(videoarea != null) {
                 let subis = [];
 
                 loadedsubs.forEach((sub, subi) => {
-                    if(sub.starttime <= message.time && sub.endtime >= message.time) {
+                    let offsetstart = sub.starttime + currentoffset;
+                    let offsetend = sub.endtime + currentoffset;
+                    if(offsetstart <= message.time && offsetend >= message.time) {
                         subis.push(subi);
                     }
                 });
@@ -211,6 +213,13 @@ if(videoarea != null) {
                     let subsyncbutton = document.createElement("button");
                     subsyncbutton.className = "controls_sub_display_sync_button";
                     subsyncbutton.textContent = "sync now";
+                    subsyncbutton.addEventListener("click", function(){
+                        let subistarttime = loadedsubs[subi].starttime;
+                        let offset = lastvideotime - subistarttime;
+                        currentoffset = offset;
+                        offsetinput.value = offset;
+                        console.log("Set current offset: " + currentoffset);
+                    });
                     subdisp.appendChild(subsyncbutton);
                 });
             };
