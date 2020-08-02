@@ -8,6 +8,11 @@
             "all_frames": true,
             "matches": ["*://static.crunchyroll.com/*player.html*"],
             "js": ["contentscript.js"]
+        },
+        {
+            "all_frames": true,
+            "matches": ["*://*.crunchyroll.com/*"],
+            "js": ["contentscript_outsidevideo.js"]
         }
     ],
     "manifest_version": 2
