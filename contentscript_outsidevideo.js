@@ -8,6 +8,16 @@ let loadedsubs = [];
 let currentoffset = 0.0;
 let lastvideotime = 0.0;
 
+let offsetinput = document.createElement("input");
+
+function setoffset(newoffset) {
+    currentoffset = newoffset;
+    offsetinput.value = newoffset;
+    chrome.storage.sync.set({suboffset: newoffset}, function() {
+        //console.log("saved offset: " + newoffset);
+    });
+}
+
 let videoarea = document.getElementById("showmedia_video");
 if(videoarea != null) {
     // -- create subtitle upload/control area
@@ -30,10 +40,23 @@ if(videoarea != null) {
     offsetlabel.innerHTML = "Offset (seconds):"
     offsetlabel.style.marginRight = "10px";
     offsetdiv.appendChild(offsetlabel);
-    let offsetinput = document.createElement("input");
     offsetinput.step = 0.05;
     offsetinput.value = 0.0;
     offsetdiv.appendChild(offsetinput);
+    let soonerbutton = document.createElement("button");
+    soonerbutton.textContent = "0.1s sooner";
+    soonerbutton.style.marginLeft = "10px";
+    soonerbutton.onclick = function() {
+        setoffset(currentoffset - 0.1);
+    };
+    offsetdiv.appendChild(soonerbutton);
+    let laterbutton = document.createElement("button");
+    laterbutton.textContent = "0.1s later";
+    laterbutton.style.marginLeft = "10px";
+    laterbutton.onclick = function() {
+        setoffset(currentoffset + 0.1);
+    };
+    offsetdiv.appendChild(laterbutton);
 
     chrome.storage.sync.get(['suboffset'], function(result) {
         if(result != null) {
@@ -216,12 +239,8 @@ if(videoarea != null) {
                     subsyncbutton.addEventListener("click", function(){
                         let subistarttime = loadedsubs[subi].starttime;
                         let offset = lastvideotime - subistarttime;
-                        currentoffset = offset;
-                        offsetinput.value = offset;
 
-                        chrome.storage.sync.set({suboffset: offset}, function() {
-                            console.log("saved offset: " + offset);
-                        });
+                        setoffset(offset);
                         //console.log("Set current offset: " + currentoffset);
                     });
                     subdisp.appendChild(subsyncbutton);
