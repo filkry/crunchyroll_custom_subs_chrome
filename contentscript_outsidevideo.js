@@ -48,7 +48,7 @@ if(videoarea != null) {
         function(message, sender, sendResponse) {
             if(message.type == "timeupdatefrombackground") {
                 //console.log("Controls time: " + message.time);
-                lastvideotime = time;
+                lastvideotime = message.time;
 
                 let subis = [];
 
