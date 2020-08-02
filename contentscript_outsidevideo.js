@@ -20,42 +20,27 @@ if(videoarea != null) {
     let controlstext = document.createTextNode("Controls Area");
     controlsdiv.style.fontSize = "xx-large";
 
-    let tempsubsdiv = document.createElement("div");
-
     chrome.runtime.onMessage.addListener(
         function(message, sender, sendResponse) {
             if(message.type == "timeupdatefrombackground") {
                 //console.log("Controls time: " + message.time);
 
-                tempsubsdiv.innerHTML = "";
-
                 let subis = [];
-                lines = [];
 
                 loadedsubs.forEach((sub, subi) => {
                     if(sub.starttime <= message.time && sub.endtime >= message.time) {
-                        if(sub.hasOwnProperty('lines')) {
-                            sub.lines.forEach(line => {
-                                lines.push(line);
-                            });
-                        }
-
                         subis.push(subi);
                     }
                 });
 
-                lines.forEach(line => {
-                    let linep = document.createElement("p");
-                    linep.innerHTML = line;
-                    tempsubsdiv.appendChild(linep);
-                });
-
                 // -- remove active sub class from all subs
+                let prevactivesubids = [];
                 activesubids.forEach(subid => {
                     let prevactivesub = document.getElementById(subid);
                     if(prevactivesub != null) {
                         prevactivesub.classList.remove("controls_active_sub_display");
                     }
+                    prevactivesubids.push(subid);
                 });
                 activesubids = [];
 
@@ -71,8 +56,10 @@ if(videoarea != null) {
                 });
 
                 if(activesubids.length > 0) {
-                    let firstactivesub = document.getElementById(activesubids[0]);
-                    firstactivesub.parentNode.scrollTop = firstactivesub.offsetTop - firstactivesub.parentNode.offsetTop;
+                    if(!prevactivesubids.includes(activesubids[0])) {
+                        let firstactivesub = document.getElementById(activesubids[0]);
+                        firstactivesub.parentNode.scrollTop = firstactivesub.offsetTop - firstactivesub.parentNode.offsetTop;
+                    }
                     //firstactivesub.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
                     //firstactivesub.scrollIntoView();
                 }
@@ -186,11 +173,20 @@ if(videoarea != null) {
                     subdisp.className = "controls_sub_display";
                     sublist.appendChild(subdisp);
 
+                    let linesdiv = document.createElement("div");
+                    linesdiv.className = "controls_sub_display_lines";
+                    subdisp.appendChild(linesdiv);
+
                     lines.forEach(line => {
                         let linep = document.createElement("p");
                         linep.innerHTML = line;
-                        subdisp.appendChild(linep);
+                        linesdiv.appendChild(linep);
                     });
+
+                    let subsyncbutton = document.createElement("button");
+                    subsyncbutton.className = "controls_sub_display_sync_button";
+                    subsyncbutton.textContent = "sync now";
+                    subdisp.appendChild(subsyncbutton);
                 });
             };
             filereader.readAsText(file);
@@ -198,7 +194,6 @@ if(videoarea != null) {
     });
 
     controlsdiv.appendChild(controlstext);
-    controlsdiv.appendChild(tempsubsdiv);
     videoarea.parentNode.insertBefore(controlsdiv, videoarea.nextSibling);
 }
 

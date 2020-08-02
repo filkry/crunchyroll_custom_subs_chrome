@@ -11,6 +11,7 @@ div .controls_sub_display {
     border-width: 1px;
     padding-left: 10px;
     padding-right: 10px;
+    display: flex;
 }
 
 div .controls_sub_display p {
@@ -18,7 +19,19 @@ div .controls_sub_display p {
     padding-bottom: 7px;
 }
 
+div .controls_sub_display_lines {
+    flex: 1 1;
+}
+
 div .controls_active_sub_display {
     color: black;
     background-color: lightgray;
+}
+
+.controls_sub_display_sync_button {
+    margin-top: 7px;
+    margin-bottom: 7px;
+    flex: 0 0 100px;
+    height: 30px;
+    max-height: 30px
 }
