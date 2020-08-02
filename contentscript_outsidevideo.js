@@ -3,17 +3,8 @@ function preventDefaults (e) {
   e.stopPropagation();
 };
 
+let activesubids = [];
 let loadedsubs = [];
-
-let port = chrome.runtime.connect({name: "controls_timeupdates"});
-
-chrome.runtime.onConnect.addListener(function(port) {
-    if(port.name == "controls_timeupdates") {
-        port.onMessage.addListener(function(msg) {
-            console.log("Controls time update: " + msg.time);
-        });
-    }
-});
 
 let videoarea = document.getElementById("showmedia_video");
 if(videoarea != null) {
@@ -38,15 +29,18 @@ if(videoarea != null) {
 
                 tempsubsdiv.innerHTML = "";
 
+                let subis = [];
                 lines = [];
 
-                loadedsubs.forEach(sub => {
+                loadedsubs.forEach((sub, subi) => {
                     if(sub.starttime <= message.time && sub.endtime >= message.time) {
                         if(sub.hasOwnProperty('lines')) {
                             sub.lines.forEach(line => {
                                 lines.push(line);
                             });
                         }
+
+                        subis.push(subi);
                     }
                 });
 
@@ -55,6 +49,33 @@ if(videoarea != null) {
                     linep.innerHTML = line;
                     tempsubsdiv.appendChild(linep);
                 });
+
+                // -- remove active sub class from all subs
+                activesubids.forEach(subid => {
+                    let prevactivesub = document.getElementById(subid);
+                    if(prevactivesub != null) {
+                        prevactivesub.classList.remove("controls_active_sub_display");
+                    }
+                });
+                activesubids = [];
+
+                // -- add active sub class to new subs
+                subis.forEach(subi => {
+                    let newactivesubid = "ext_subtitle_list_sub_" + subi;
+                    let newactivesub = document.getElementById(newactivesubid);
+                    if(newactivesub != null) {
+                        newactivesub.classList.add("controls_active_sub_display");
+                    }
+
+                    activesubids.push(newactivesubid);
+                });
+
+                if(activesubids.length > 0) {
+                    let firstactivesub = document.getElementById(activesubids[0]);
+                    firstactivesub.parentNode.scrollTop = firstactivesub.offsetTop - firstactivesub.parentNode.offsetTop;
+                    //firstactivesub.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+                    //firstactivesub.scrollIntoView();
+                }
             }
         }
     );
@@ -136,10 +157,40 @@ if(videoarea != null) {
                             curlines.push(line);
                         }
                         else {
-                            console.log(cursub);
+                            //console.log(cursub);
                             state = EParseStates.eWaitingForNextSub;
                         }
                     }
+                });
+
+                // -- update the subtitle list
+                let sublist = document.getElementById("ext_subtitle_list");
+                if(sublist != null) {
+                    sublist.parentNode.removeChild(sublist);
+                }
+
+                sublist = document.createElement("div");
+                sublist.id = "ext_subtitle_list";
+                controlsdiv.appendChild(sublist);
+
+                loadedsubs.forEach((sub, subi) => {
+                    let lines = [];
+                    if(sub.hasOwnProperty('lines')) {
+                        sub.lines.forEach(line => {
+                            lines.push(line);
+                        });
+                    }
+
+                    let subdisp = document.createElement("div");
+                    subdisp.id = "ext_subtitle_list_sub_" + subi;
+                    subdisp.className = "controls_sub_display";
+                    sublist.appendChild(subdisp);
+
+                    lines.forEach(line => {
+                        let linep = document.createElement("p");
+                        linep.innerHTML = line;
+                        subdisp.appendChild(linep);
+                    });
                 });
             };
             filereader.readAsText(file);

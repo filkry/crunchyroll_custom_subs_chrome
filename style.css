@@ -1,0 +1,24 @@
+div #ext_subtitle_list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+div .controls_sub_display {
+    color: gray;
+    font-size: 16pt;
+    border-top: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+div .controls_sub_display p {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+div .controls_active_sub_display {
+    color: black;
+    background-color: lightgray;
+}

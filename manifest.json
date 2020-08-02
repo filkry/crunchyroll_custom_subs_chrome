@@ -15,7 +15,8 @@
         {
             "all_frames": true,
             "matches": ["*://*.crunchyroll.com/*"],
-            "js": ["contentscript_outsidevideo.js"]
+            "js": ["contentscript_outsidevideo.js"],
+            "css": ["style.css"]
         }
     ],
     "manifest_version": 2
