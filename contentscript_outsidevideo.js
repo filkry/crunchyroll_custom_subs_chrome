@@ -48,6 +48,8 @@ if(videoarea != null) {
                 let state = EParseStates.eWaitingForNextSub;
 
                 let matchnewsub = /^[0-9]+$/;
+                let matchtime = /^(?<starthours>[0-9]+):(?<startminutes>[0-9]+):(?<startseconds>[0-9]+),(?<startmilliseconds>[0-9]+)\s?-->\s?(?<endhours>[0-9]+):(?<endminutes>[0-9]+):(?<endseconds>[0-9]+),(?<endmilliseconds>[0-9]+)\s*$/;
+                let matchline = /^\S+$/;
 
                 loadedsubs = []; // reset
 
@@ -59,11 +61,44 @@ if(videoarea != null) {
                         if(res != null && res.length > 0) {
                             loadedsubs.push({}); // append empty sub
                             state = EParseStates.eWaitingForTime;
-                            console.log("New sub!");
+                            //console.log("New sub!");
                         }
                     }
                     else if(state == EParseStates.eWaitingForTime) {
+                        let res = line.match(matchtime);
+                        if(res != null) {
+                            let cursub = loadedsubs[loadedsubs.length - 1];
+                            let starttime = parseFloat(res.groups.starthours) * 60.0 * 60.0 +
+                                            parseFloat(res.groups.startminutes) * 60.0 +
+                                            parseFloat(res.groups.startseconds) +
+                                            parseFloat(res.groups.startmilliseconds) * 0.001;
+                            let endtime = parseFloat(res.groups.endhours) * 60.0 * 60.0 +
+                                          parseFloat(res.groups.endminutes) * 60.0 +
+                                          parseFloat(res.groups.endseconds) +
+                                          parseFloat(res.groups.endmilliseconds) * 0.001;
+                            cursub.starttime = starttime;
+                            cursub.endtime = endtime;
+                            //console.log(starttime);
 
+                            state = EParseStates.eReadingLines;
+                        }
+                    }
+                    else if(state == EParseStates.eReadingLines) {
+                        let cursub = loadedsubs[loadedsubs.length - 1];
+
+                        let res = line.match(matchline);
+                        if(res != null) {
+                            if(!cursub.hasOwnProperty('lines')) {
+                                cursub.lines = [];
+                            }
+
+                            let curlines = cursub.lines;
+                            curlines.push(line);
+                        }
+                        else {
+                            console.log(cursub);
+                            state = EParseStates.eWaitingForNextSub;
+                        }
                     }
                 });
             };
