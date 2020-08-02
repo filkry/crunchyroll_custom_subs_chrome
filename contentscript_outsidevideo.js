@@ -5,6 +5,16 @@ function preventDefaults (e) {
 
 let loadedsubs = [];
 
+let port = chrome.runtime.connect({name: "controls_timeupdates"});
+
+chrome.runtime.onConnect.addListener(function(port) {
+    if(port.name == "controls_timeupdates") {
+        port.onMessage.addListener(function(msg) {
+            console.log("Controls time update: " + msg.time);
+        });
+    }
+});
+
 let videoarea = document.getElementById("showmedia_video");
 if(videoarea != null) {
     // -- create subtitle upload/control area
@@ -18,6 +28,36 @@ if(videoarea != null) {
 
     let controlstext = document.createTextNode("Controls Area");
     controlsdiv.style.fontSize = "xx-large";
+
+    let tempsubsdiv = document.createElement("div");
+
+    chrome.runtime.onMessage.addListener(
+        function(message, sender, sendResponse) {
+            if(message.type == "timeupdatefrombackground") {
+                //console.log("Controls time: " + message.time);
+
+                tempsubsdiv.innerHTML = "";
+
+                lines = [];
+
+                loadedsubs.forEach(sub => {
+                    if(sub.starttime <= message.time && sub.endtime >= message.time) {
+                        if(sub.hasOwnProperty('lines')) {
+                            sub.lines.forEach(line => {
+                                lines.push(line);
+                            });
+                        }
+                    }
+                });
+
+                lines.forEach(line => {
+                    let linep = document.createElement("p");
+                    linep.innerHTML = line;
+                    tempsubsdiv.appendChild(linep);
+                });
+            }
+        }
+    );
 
     ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
         controlsdiv.addEventListener(eventName, preventDefaults, false)
@@ -107,6 +147,7 @@ if(videoarea != null) {
     });
 
     controlsdiv.appendChild(controlstext);
+    controlsdiv.appendChild(tempsubsdiv);
     videoarea.parentNode.insertBefore(controlsdiv, videoarea.nextSibling);
 }
 

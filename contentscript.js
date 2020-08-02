@@ -1,4 +1,4 @@
-console.log("content script running");
+//console.log("content script running");
 
 let video = document.getElementById("player0");
 
@@ -24,5 +24,12 @@ video.parentElement.appendChild(subdiv);
 
 video.addEventListener("timeupdate", function() {
     subtext.nodeValue = "time: " + video.currentTime;
-    console.log("time update: " + video.currentTime);
+
+    chrome.runtime.sendMessage(
+        {
+            type: "timeupdatefromvideo",
+            time: video.currentTime
+        }
+    );
+    //console.log("time update: " + video.currentTime);
 });

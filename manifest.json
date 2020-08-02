@@ -3,6 +3,9 @@
     "version": "1.0",
     "description": "Use custom subtitle files on Crunchyroll.",
     "permissions": ["activeTab"],
+    "background": {
+        "scripts": ["background.js"]
+    },
     "content_scripts": [
         {
             "all_frames": true,
