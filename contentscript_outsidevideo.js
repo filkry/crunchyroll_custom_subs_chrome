@@ -89,7 +89,7 @@ if(videoarea != null) {
 
                 let matchnewsub = /^[0-9]+$/;
                 let matchtime = /^(?<starthours>[0-9]+):(?<startminutes>[0-9]+):(?<startseconds>[0-9]+),(?<startmilliseconds>[0-9]+)\s?-->\s?(?<endhours>[0-9]+):(?<endminutes>[0-9]+):(?<endseconds>[0-9]+),(?<endmilliseconds>[0-9]+)\s*$/;
-                let matchline = /^\S+$/;
+                let matchline = /\S+/;
 
                 loadedsubs = []; // reset
 
