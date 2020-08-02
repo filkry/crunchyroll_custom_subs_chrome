@@ -17,8 +17,11 @@ if(videoarea != null) {
     controlsdiv.style.borderWidth = "1px";
     controlsdiv.style.marginBottom = "20px";
 
-    let controlstext = document.createTextNode("Controls Area");
-    controlsdiv.style.fontSize = "xx-large";
+    let dropdiv = document.createElement("div");
+    dropdiv.id = "ext_drop_div";
+    let droptext = document.createElement("p");
+    droptext.innerHTML = "drop subtitle file (SRT) here";
+    dropdiv.appendChild(droptext);
 
     chrome.runtime.onMessage.addListener(
         function(message, sender, sendResponse) {
@@ -193,7 +196,7 @@ if(videoarea != null) {
         }
     });
 
-    controlsdiv.appendChild(controlstext);
+    controlsdiv.appendChild(dropdiv);
     videoarea.parentNode.insertBefore(controlsdiv, videoarea.nextSibling);
 }
 

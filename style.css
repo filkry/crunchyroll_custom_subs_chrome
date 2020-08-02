@@ -3,6 +3,21 @@ div #ext_subtitle_list {
     overflow-y: auto;
 }
 
+div #ext_drop_div {
+    min-height: 50px;
+    font-size: 12pt;
+    border-radius: 10px;
+    border-style: dotted;
+    border-width: 2px;
+    border-color: lightgray;
+    margin-bottom: 20px;
+}
+
+div #ext_drop_div p {
+    margin-top: 15px;
+    text-align: center;;
+}
+
 div .controls_sub_display {
     color: gray;
     font-size: 16pt;
