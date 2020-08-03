@@ -22,6 +22,25 @@ textdiv.appendChild(subtext);
 subdiv.appendChild(textdiv);
 video.parentElement.appendChild(subdiv);
 
+// -- make a canvas for subtitle octopus
+let crcanvas = document.getElementById("velocity-canvas");
+let ourcanvas = document.createElement("canvas");
+ourcanvas.style.position = "absolute";
+ourcanvas.style.zIndex = 2;
+ourcanvas.style.width = 960;
+ourcanvas.style.height = 540;
+video.addEventListener("resize", function() {
+    ourcanvas.style.width = video.style.width;
+    ourcanvas.style.height = video.style.height;
+});
+crcanvas.after(ourcanvas);
+crcanvas.style.visibility = "hidden";
+
+// -- temp
+var ctx = ourcanvas.getContext("2d");
+ctx.fillStyle = "#FF0000";
+ctx.fillRect(20, 20, 150, 100);
+
 video.addEventListener("timeupdate", function() {
     subtext.nodeValue = "time: " + video.currentTime;
 
