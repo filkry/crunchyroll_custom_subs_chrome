@@ -4,8 +4,11 @@ chrome.runtime.onMessage.addListener(
         if(message.type == "timeupdatefromvideo") {
             chrome.tabs.sendMessage(sender.tab.id, {type: "timeupdatefrombackground", time: message.time});
         }
-        else if(message.type == "assfilefromcontrols") {
-            chrome.tabs.sendMessage(sender.tab.id, {type: "assfilefrombackground", filecontent: message.filecontent});
+        else if(message.type == "loadedsubsfromcontrols") {
+            chrome.tabs.sendMessage(sender.tab.id, {type: "loadedsubsfrombackground", loadedsubs: message.loadedsubs});
+        }
+        else if(message.type == "offsetupdatefromcontrols") {
+            chrome.tabs.sendMessage(sender.tab.id, {type: "offsetupdatefrombackground", offset: message.offset});
         }
     }
 );

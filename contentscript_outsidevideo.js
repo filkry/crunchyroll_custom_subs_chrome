@@ -18,6 +18,11 @@ function setoffset(newoffset) {
     chrome.storage.sync.set({suboffset: newoffset}, function() {
         //console.log("saved offset: " + newoffset);
     });
+
+    chrome.runtime.sendMessage({
+        type: "offsetupdatefromcontrols",
+        offset: newoffset
+    });
 }
 
 function updateSubtitlesList() {
@@ -141,6 +146,7 @@ function parseSRT(file) {
         });
 
         updateSubtitlesList();
+        sendSubsToVideo(loadedsubs);
     };
     filereader.readAsText(file);
 }
@@ -184,24 +190,19 @@ function parseASS(file) {
         });
 
         updateSubtitlesList();
+        sendSubsToVideo(loadedsubs);
     }
 
     filereader.readAsText(file);
 }
 
-function sendASSToVideo(file) {
-    let filereader = new FileReader();
-    filereader.onload = function(event) {
-        let content = filereader.result;
-        chrome.runtime.sendMessage(
-            {
-                type: "assfilefromcontrols",
-                filecontent: content
-            }
-        );
-    }
-
-    filereader.readAsText(file);
+function sendSubsToVideo(subs) {
+    chrome.runtime.sendMessage(
+        {
+            type: "loadedsubsfromcontrols",
+            loadedsubs: subs
+        }
+    );
 }
 let videoarea = document.getElementById("showmedia_video");
 if(videoarea != null) {
@@ -245,8 +246,7 @@ if(videoarea != null) {
     chrome.storage.sync.get(['suboffset'], function(result) {
         if(result != null) {
             if(result.suboffset != null) {
-                currentoffset = result.suboffset;
-                offsetinput.value = result.suboffset;
+                setoffset(result.suboffset);
             }
         }
     });
@@ -319,7 +319,6 @@ if(videoarea != null) {
             }
             else if(file.name.includes(".ass") || file.name.includes(".ASS")) {
                 parseASS(file);
-                sendASSToVideo(file);
             }
         }
     });

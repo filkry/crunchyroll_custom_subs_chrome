@@ -33,6 +33,7 @@ div .controls_sub_display {
 div .controls_sub_display p {
     padding-top: 7px;
     padding-bottom: 7px;
+    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック" , "MS Gothic", "Noto Sans CJK JP", TakaoPGothic, sans-serif;
 }
 
 div .controls_sub_display_lines {
@@ -50,4 +51,27 @@ div .controls_active_sub_display {
     flex: 0 0 100px;
     height: 30px;
     max-height: 30px
+}
+
+.video_sub_display {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: absolute;
+}
+
+.video_sub_display_text {
+    color: white;
+    text-align: center;
+    font-size: xx-large;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 100%;
+    bottom: 4%;
+}
+
+.video_sub_display_text p {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック" , "MS Gothic", "Noto Sans CJK JP", TakaoPGothic, sans-serif;
 }

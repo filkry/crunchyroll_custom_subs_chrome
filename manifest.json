@@ -14,10 +14,9 @@
             "all_frames": true,
             "matches": ["*://static.crunchyroll.com/*player.html*"],
             "js": [
-                "patch-worker.js",
-                "subtitles-octopus/subtitles-octopus.js",
                 "contentscript.js"
-            ]
+            ],
+            "css": ["style.css"]
         },
         {
             "all_frames": true,
@@ -27,7 +26,6 @@
         }
     ],
     "web_accessible_resources": [
-        "subtitles-octopus/*"
     ],
     "manifest_version": 2
 }
