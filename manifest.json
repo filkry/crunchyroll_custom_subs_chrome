@@ -2,7 +2,10 @@
     "name": "Crunchyroll Custom Subs",
     "version": "1.0",
     "description": "Use custom subtitle files on Crunchyroll.",
-    "permissions": ["activeTab", "storage"],
+    "permissions": [
+        "activeTab",
+        "storage"
+    ],
     "background": {
         "scripts": ["background.js"]
     },
@@ -10,7 +13,11 @@
         {
             "all_frames": true,
             "matches": ["*://static.crunchyroll.com/*player.html*"],
-            "js": ["contentscript.js"]
+            "js": [
+                //"patch-worker.js",
+                "subtitles-octopus/subtitles-octopus.js",
+                "contentscript.js"
+            ]
         },
         {
             "all_frames": true,
@@ -18,6 +25,14 @@
             "js": ["contentscript_outsidevideo.js"],
             "css": ["style.css"]
         }
+    ],
+    "web_accessible_resources": [
+        //"subtitles-octopus/subtitles-octopus-worker.js",
+        //"subtitles-octopus/subtitles-octopus-worker.data",
+        //"subtitles-octopus/subtitles-octopus-worker.wasm",
+        //"subtitles-octopus/subtitles-octopus-worker-legacy.js",
+        //"subtitles-octopus/subtitles-octopus-worker-legacy.data",
+        //"subtitles-octopus/subtitles-octopus-worker-legacy.js.mem"
     ],
     "manifest_version": 2
 }

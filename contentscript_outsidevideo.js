@@ -189,6 +189,20 @@ function parseASS(file) {
     filereader.readAsText(file);
 }
 
+function sendASSToVideo(file) {
+    let filereader = new FileReader();
+    filereader.onload = function(event) {
+        let content = filereader.result;
+        chrome.runtime.sendMessage(
+            {
+                type: "assfilefromcontrols",
+                filecontent: content
+            }
+        );
+    }
+
+    filereader.readAsText(file);
+}
 let videoarea = document.getElementById("showmedia_video");
 if(videoarea != null) {
     // -- create subtitle upload/control area
@@ -305,6 +319,7 @@ if(videoarea != null) {
             }
             else if(file.name.includes(".ass") || file.name.includes(".ASS")) {
                 parseASS(file);
+                sendASSToVideo(file);
             }
         }
     });
