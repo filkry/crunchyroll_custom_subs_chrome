@@ -140,10 +140,53 @@ function parseSRT(file) {
             }
         });
 
+        updateSubtitlesList();
     };
     filereader.readAsText(file);
+}
 
-    updateSubtitlesList();
+function parseASS(file) {
+    let filereader = new FileReader();
+    filereader.onload = function(event) {
+        //console.log(filereader.result);
+
+        let matchline = /^\S+:\s?[0-9]+,(?<starthours>[0-9]+):(?<startminutes>[0-9]+):(?<startseconds>[0-9]+).(?<starthundredths>[0-9]+),(?<endhours>[0-9]+):(?<endminutes>[0-9]+):(?<endseconds>[0-9]+).(?<endhundredths>[0-9]+),[^,]*,[^,]*,[0-9]*,[0-9]*,[0-9]*,[^,]*,(?<line>.+)/;
+
+        loadedsubs = []; // reset
+
+        let lines = filereader.result.split("\n");
+        lines.forEach(line => {
+            let res = line.match(matchline);
+            if(res != null) {
+                let newsub = {
+                    lines: []
+                };
+                newsub.starttime = parseFloat(res.groups.starthours) * 60.0 * 60.0 +
+                                   parseFloat(res.groups.startminutes) * 60.0 +
+                                   parseFloat(res.groups.startseconds) +
+                                   parseFloat(res.groups.starthundredths) * 0.01;
+                newsub.endtime = parseFloat(res.groups.endhours) * 60.0 * 60.0 +
+                                 parseFloat(res.groups.endminutes) * 60.0 +
+                                 parseFloat(res.groups.endseconds) +
+                                 parseFloat(res.groups.endhundredths) * 0.01;
+
+                if(res.groups.line != null) {
+                    let lines = res.groups.line.split(/[\n\N]+/);
+                    lines.forEach(line => {
+                        line = line.replace("\\", "");
+                        if(line.length > 0) {
+                            newsub.lines.push(line);
+                        }
+                    });
+                }
+                loadedsubs.push(newsub);
+            }
+        });
+
+        updateSubtitlesList();
+    }
+
+    filereader.readAsText(file);
 }
 
 let videoarea = document.getElementById("showmedia_video");
@@ -257,8 +300,11 @@ if(videoarea != null) {
 
             //console.log(file.name);
 
-            if(file.name.includes(".srt")) {
+            if(file.name.includes(".srt") || file.name.includes(".SRT")) {
                 parseSRT(file);
+            }
+            else if(file.name.includes(".ass") || file.name.includes(".ASS")) {
+                parseASS(file);
             }
         }
     });
