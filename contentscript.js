@@ -47,8 +47,8 @@ video.addEventListener("timeupdate", function() {
     subtext.nodeValue = "time: " + video.currentTime;
 
     if(subtitlesoctopus != null) {
-        console.log("Updating subtitlesoctopus time: " + video.currentTime);
-        instance.setCurrentTime(video.currentTime / 60.0);
+        //console.log("Updating subtitlesoctopus time: " + video.currentTime);
+        subtitlesoctopus.setCurrentTime(video.currentTime / 60.0);
     }
 
     chrome.runtime.sendMessage(
@@ -71,8 +71,10 @@ chrome.runtime.onMessage.addListener(
             }
             else {
                 var options = {
+                    //video: video,
                     canvas: ourcanvas,
                     subContent: message.filecontent,
+                    fonts: ["https://static.crunchyroll.com/vilos-v2/web/vilos/assets/libass-fonts/arialuni.ttf"],
                     //workerUrl: chrome.extension.getURL('/subtitles-octopus/subtitles-octopus-worker.js')
                     workerUrl: "./assets/libass-wasm/subtitles-octopus-worker.js"
                 };

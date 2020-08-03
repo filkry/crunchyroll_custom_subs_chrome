@@ -88,6 +88,7 @@ var SubtitlesOctopus = function (options) {
             self.worker.onmessage = self.onWorkerMessage;
             self.worker.onerror = self.workerError;
         }
+
         self.workerActive = false;
         self.createCanvas();
         self.setVideo(options.video);

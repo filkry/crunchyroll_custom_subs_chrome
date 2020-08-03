@@ -14,7 +14,7 @@
             "all_frames": true,
             "matches": ["*://static.crunchyroll.com/*player.html*"],
             "js": [
-                //"patch-worker.js",
+                "patch-worker.js",
                 "subtitles-octopus/subtitles-octopus.js",
                 "contentscript.js"
             ]
@@ -27,12 +27,7 @@
         }
     ],
     "web_accessible_resources": [
-        //"subtitles-octopus/subtitles-octopus-worker.js",
-        //"subtitles-octopus/subtitles-octopus-worker.data",
-        //"subtitles-octopus/subtitles-octopus-worker.wasm",
-        //"subtitles-octopus/subtitles-octopus-worker-legacy.js",
-        //"subtitles-octopus/subtitles-octopus-worker-legacy.data",
-        //"subtitles-octopus/subtitles-octopus-worker-legacy.js.mem"
+        "subtitles-octopus/*"
     ],
     "manifest_version": 2
 }
