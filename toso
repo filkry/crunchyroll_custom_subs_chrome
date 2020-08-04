@@ -1,3 +1,6 @@
 ? add ability to use english subtitle file to get translation for Anki
 ? auto anki note generation
 + add ability to jump video to line from list
++ button to copy current subtitle to clipboard
++ object to toggle between our subtitles and CR native
++ option to show the previous subtitle above the current one, slightly lower text opacity
