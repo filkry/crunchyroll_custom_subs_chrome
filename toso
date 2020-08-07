@@ -1,4 +1,3 @@
-+ button to copy current subtitle to clipboard
 + object to toggle between our subtitles and CR native
 + option to show the previous subtitle above the current one, slightly lower text opacity
 + capture space bar when on the text display to resume video rather than scroll

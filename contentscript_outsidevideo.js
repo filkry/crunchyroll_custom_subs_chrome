@@ -59,6 +59,21 @@ function updateSubtitlesList() {
             linesdiv.appendChild(linep);
         });
 
+        let copybutton = document.createElement("button");
+        copybutton.className = "controls_sub_display_button";
+        copybutton.textContent = "copy";
+        copybutton.addEventListener("click", function(){
+            var range = document.createRange();
+            var selection = window.getSelection();
+            range.selectNodeContents(linesdiv);
+
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            document.execCommand('copy');
+        });
+        subdisp.appendChild(copybutton);
+
         let jumpbutton = document.createElement("button");
         jumpbutton.className = "controls_sub_display_button";
         jumpbutton.textContent = "jump to";
