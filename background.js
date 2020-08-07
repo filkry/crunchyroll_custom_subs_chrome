@@ -10,5 +10,8 @@ chrome.runtime.onMessage.addListener(
         else if(message.type == "offsetupdatefromcontrols") {
             chrome.tabs.sendMessage(sender.tab.id, {type: "offsetupdatefrombackground", offset: message.offset});
         }
+        else if(message.type == "settimefromcontrols") {
+            chrome.tabs.sendMessage(sender.tab.id, {type: "settimefrombackground", time: message.time});
+        }
     }
 );

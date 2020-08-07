@@ -59,8 +59,23 @@ function updateSubtitlesList() {
             linesdiv.appendChild(linep);
         });
 
+        let jumpbutton = document.createElement("button");
+        jumpbutton.className = "controls_sub_display_button";
+        jumpbutton.textContent = "jump to";
+        jumpbutton.addEventListener("click", function(){
+            let subistarttime = loadedsubs[subi].starttime;
+            let targettime = subistarttime + currentoffset;
+
+            chrome.runtime.sendMessage({
+                type: "settimefromcontrols",
+                time: targettime
+            });
+            //console.log("Set current offset: " + currentoffset);
+        });
+        subdisp.appendChild(jumpbutton);
+
         let subsyncbutton = document.createElement("button");
-        subsyncbutton.className = "controls_sub_display_sync_button";
+        subsyncbutton.className = "controls_sub_display_button";
         subsyncbutton.textContent = "sync now";
         subsyncbutton.addEventListener("click", function(){
             let subistarttime = loadedsubs[subi].starttime;

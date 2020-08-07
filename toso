@@ -1,11 +1,17 @@
-? add ability to use english subtitle file to get translation for Anki
-? auto anki note generation
-+ add ability to jump video to line from list
 + button to copy current subtitle to clipboard
 + object to toggle between our subtitles and CR native
 + option to show the previous subtitle above the current one, slightly lower text opacity
 + capture space bar when on the text display to resume video rather than scroll
-+ try again to copy the current frame, even just to clipboard
 + option to pause at end of each line
 + pad the sides of the dialog line so dialogue can't go all the way to the edge of video
++ fix the startup bug
 ? dictionary breakdown and lookup
+? add ability to use english subtitle file to get translation for Anki
+? auto anki note generation
+
+
+
+
+
+
++ try again to copy the current frame, even just to clipboard

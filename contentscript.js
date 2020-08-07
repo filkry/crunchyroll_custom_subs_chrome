@@ -69,5 +69,9 @@ chrome.runtime.onMessage.addListener(
         else if(message.type == "offsetupdatefrombackground") {
             currentoffset = message.offset;
         }
+        else if(message.type == "settimefrombackground") {
+            console.log("settimefrombackground: " + message.time);
+            video.currentTime = message.time;
+        }
     }
 );

@@ -45,12 +45,14 @@ div .controls_active_sub_display {
     background-color: lightgray;
 }
 
-.controls_sub_display_sync_button {
+.controls_sub_display_button {
     margin-top: 7px;
     margin-bottom: 7px;
-    flex: 0 0 100px;
+    flex: 0 0 80px;
     height: 30px;
     max-height: 30px
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 .video_sub_display {
