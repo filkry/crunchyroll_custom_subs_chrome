@@ -1,3 +1,24 @@
+label {
+    user-select: none;
+}
+
+.controlsdiv {
+    margin-bottom: 5px;
+}
+
+#offset_opts_panel {
+    display: flex;
+}
+
+#offset_panel {
+    flex: 0 1 55%;
+    margin-right: 20px;
+}
+
+#opts_panel {
+    flex: 0 1 45%;
+}
+
 div #ext_subtitle_list {
     max-height: 400px;
     overflow-y: auto;
@@ -78,4 +99,13 @@ div .controls_active_sub_display {
     margin-top: 3px;
     margin-bottom: 3px;
     font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック" , "MS Gothic", "Noto Sans CJK JP", TakaoPGothic, sans-serif;
+}
+
+#opts_sub_checkbox {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+#opts_sub_label {
+    vertical-align: middle;
 }

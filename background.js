@@ -13,5 +13,8 @@ chrome.runtime.onMessage.addListener(
         else if(message.type == "settimefromcontrols") {
             chrome.tabs.sendMessage(sender.tab.id, {type: "settimefrombackground", time: message.time});
         }
+        else if(message.type == "setreplacecrunchysubsfromcontrols") {
+            chrome.tabs.sendMessage(sender.tab.id, {type: "setreplacecrunchysubsfrombackground", replace: message.replace});
+        }
     }
 );

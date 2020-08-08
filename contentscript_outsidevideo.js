@@ -250,7 +250,12 @@ if(videoarea != null) {
     droptext.innerHTML = "drop subtitle file (SRT) here";
     dropdiv.appendChild(droptext);
 
+    let offsetoptspanel = document.createElement("div");
+    offsetoptspanel.id = "offset_opts_panel";
+
     let offsetdiv = document.createElement("div");
+    offsetdiv.className = "controlsdiv";
+    offsetdiv.id = "offset_panel";
     let offsetlabel = document.createElement("label");
     offsetlabel.innerHTML = "Offset (seconds):"
     offsetlabel.style.marginRight = "10px";
@@ -272,6 +277,28 @@ if(videoarea != null) {
         setoffset(currentoffset + 0.1);
     };
     offsetdiv.appendChild(laterbutton);
+    offsetoptspanel.appendChild(offsetdiv);
+
+    let optsdiv = document.createElement("div");
+    optsdiv.className = "controlsdiv";
+    optsdiv.id = "opts_panel";
+    let optsubcheckbox = document.createElement("input");
+    optsubcheckbox.type = "checkbox";
+    optsubcheckbox.id = "opts_sub_checkbox";
+    optsdiv.appendChild(optsubcheckbox);
+    optsublabel = document.createElement("label");
+    optsublabel.id = "opts_sub_label";
+    optsublabel.htmlFor = "opts_sub_checkbox";
+    optsublabel.textContent = "Replace Crunchyroll subtitles";
+    optsdiv.appendChild(optsublabel);
+    optsubcheckbox.onclick = function() {
+        chrome.runtime.sendMessage({
+            type: "setreplacecrunchysubsfromcontrols",
+            replace: optsubcheckbox.checked
+        });
+    };
+    optsubcheckbox.checked = true;
+    offsetoptspanel.appendChild(optsdiv);
 
     chrome.storage.sync.get(['suboffset'], function(result) {
         if(result != null) {
@@ -354,7 +381,7 @@ if(videoarea != null) {
     });
 
     controlsdiv.appendChild(dropdiv);
-    controlsdiv.appendChild(offsetdiv);
+    controlsdiv.appendChild(offsetoptspanel);
     videoarea.parentNode.insertBefore(controlsdiv, videoarea.nextSibling);
 }
 

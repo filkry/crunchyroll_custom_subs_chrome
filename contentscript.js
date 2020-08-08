@@ -73,5 +73,16 @@ chrome.runtime.onMessage.addListener(
             console.log("settimefrombackground: " + message.time);
             video.currentTime = message.time;
         }
+        else if(message.type == "setreplacecrunchysubsfrombackground") {
+            console.log("setreplacecrunchysubsfrombackground: " + message.replace);
+            if(message.replace) {
+                crcanvas.style.visibility = "hidden";
+                subdiv.style.visibility = "visible";
+            }
+            else {
+                crcanvas.style.visibility = "visible";
+                subdiv.style.visibility = "hidden";
+            }
+        }
     }
 );
