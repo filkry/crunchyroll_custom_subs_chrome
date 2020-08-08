@@ -256,6 +256,7 @@ if(videoarea != null) {
     let offsetdiv = document.createElement("div");
     offsetdiv.className = "controlsdiv";
     offsetdiv.id = "offset_panel";
+    offsetoptspanel.appendChild(offsetdiv);
     let offsetlabel = document.createElement("label");
     offsetlabel.innerHTML = "Offset (seconds):"
     offsetlabel.style.marginRight = "10px";
@@ -277,20 +278,28 @@ if(videoarea != null) {
         setoffset(currentoffset + 0.1);
     };
     offsetdiv.appendChild(laterbutton);
-    offsetoptspanel.appendChild(offsetdiv);
 
     let optsdiv = document.createElement("div");
     optsdiv.className = "controlsdiv";
     optsdiv.id = "opts_panel";
+    offsetoptspanel.appendChild(optsdiv);
+
+    let optschecklist = document.createElement("list");
+    optsdiv.appendChild(optschecklist);
+
+    let optsubcheckboxul = document.createElement("ul");
+    optsdiv.appendChild(optsubcheckboxul);
     let optsubcheckbox = document.createElement("input");
     optsubcheckbox.type = "checkbox";
     optsubcheckbox.id = "opts_sub_checkbox";
-    optsdiv.appendChild(optsubcheckbox);
+    optsubcheckbox.className = "opts_checkbox";
+    optsubcheckboxul.appendChild(optsubcheckbox);
     optsublabel = document.createElement("label");
     optsublabel.id = "opts_sub_label";
+    optsublabel.className = "opts_checkbox_label";
     optsublabel.htmlFor = "opts_sub_checkbox";
     optsublabel.textContent = "Replace Crunchyroll subtitles";
-    optsdiv.appendChild(optsublabel);
+    optsubcheckboxul.appendChild(optsublabel);
     optsubcheckbox.onclick = function() {
         chrome.runtime.sendMessage({
             type: "setreplacecrunchysubsfromcontrols",
@@ -298,7 +307,27 @@ if(videoarea != null) {
         });
     };
     optsubcheckbox.checked = true;
-    offsetoptspanel.appendChild(optsdiv);
+
+    let optsubendpausecheckboxul = document.createElement("ul");
+    optsdiv.appendChild(optsubendpausecheckboxul);
+    let optsubendpausecheckbox = document.createElement("input");
+    optsubendpausecheckbox.type = "checkbox";
+    optsubendpausecheckbox.id = "opts_sub_end_pause_checkbox";
+    optsubendpausecheckbox.className = "opts_checkbox";
+    optsubendpausecheckboxul.appendChild(optsubendpausecheckbox);
+    optsubendpauselabel = document.createElement("label");
+    optsubendpauselabel.id = "opts_sub_end_pause_label";
+    optsubendpauselabel.className = "opts_checkbox_label";
+    optsubendpauselabel.htmlFor = "opts_sub_end_pause_checkbox";
+    optsubendpauselabel.textContent = "Pause at end of each sub";
+    optsubendpausecheckboxul.appendChild(optsubendpauselabel);
+    optsubendpausecheckbox.onclick = function() {
+        chrome.runtime.sendMessage({
+            type: "setsubendpausefromcontrols",
+            subendpause: optsubendpausecheckbox.checked
+        });
+    };
+    optsubendpausecheckbox.checked = false;
 
     chrome.storage.sync.get(['suboffset'], function(result) {
         if(result != null) {

@@ -101,11 +101,11 @@ div .controls_active_sub_display {
     font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック" , "MS Gothic", "Noto Sans CJK JP", TakaoPGothic, sans-serif;
 }
 
-#opts_sub_checkbox {
+.opts_checkbox {
     margin-right: 5px;
     vertical-align: middle;
 }
 
-#opts_sub_label {
+.opts_checkbox_label {
     vertical-align: middle;
 }

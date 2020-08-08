@@ -2,6 +2,8 @@
 
 let loadedsubs = null;
 let currentoffset = 0.0;
+let subendpause = false;
+let lastendpausei = null;
 
 let video = document.getElementById("player0");
 
@@ -35,6 +37,9 @@ video.addEventListener("timeupdate", function() {
 
     let lines = [];
     if(loadedsubs != null) {
+        let firstendtime = null;
+        let firstendi = null;
+
         loadedsubs.forEach((sub, subi) => {
             let offsetstart = sub.starttime + currentoffset;
             let offsetend = sub.endtime + currentoffset;
@@ -42,8 +47,20 @@ video.addEventListener("timeupdate", function() {
                 sub.lines.forEach(line => {
                     lines.push(line);
                 });
+
+                if(firstendtime == null) {
+                    firstendtime = sub.endtime + currentoffset;
+                    firstendi = subi;
+                }
             }
         });
+
+        if(subendpause && firstendtime != null && firstendi != null && lastendpausei != firstendi) {
+            if((firstendtime - video.currentTime) < 0.5) {
+                video.pause();
+                lastendpausei = firstendi;
+            }
+        }
 
         lines.forEach(line => {
             let newp = document.createElement("p");
@@ -83,6 +100,10 @@ chrome.runtime.onMessage.addListener(
                 crcanvas.style.visibility = "visible";
                 subdiv.style.visibility = "hidden";
             }
+        }
+        else if(message.type == "setsubendpausefrombackground") {
+            console.log("setsubendpausefrombackground: " + message.subendpause);
+            subendpause = message.subendpause;
         }
     }
 );
