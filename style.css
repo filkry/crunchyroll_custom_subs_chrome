@@ -93,6 +93,9 @@ div .controls_active_sub_display {
     position: absolute;
     width: 100%;
     bottom: 4%;
+    padding-left: 5%;
+    padding-right: 5%;
+    box-sizing: border-box;
 }
 
 .video_sub_display_text p {

@@ -1,10 +1,10 @@
-+ capture space bar when on the text display to resume video rather than scroll
-+ pad the sides of the dialog line so dialogue can't go all the way to the edge of video
 + fix the startup bug
++ buttons to jump to previous, next line
 ? option to show the previous subtitle above the current one, slightly lower text opacity
 ? dictionary breakdown and lookup
 ? add ability to use english subtitle file to get translation for Anki
 ? auto anki note generation
+? capture space bar when on the text display to resume video rather than scroll
 
 
 
